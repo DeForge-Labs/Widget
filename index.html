@@ -242,7 +242,7 @@
         
         .code-block {
             background: rgba(0, 0, 0, 0.4);
-            padding: 25px;
+            padding: 25px 60px 25px 25px; /* Added right padding for copy button */
             border-radius: 12px;
             font-family: 'Lexend Deca', monospace;
             font-size: 14px;
@@ -254,7 +254,10 @@
         
         .code-block code {
             color: #fefcea;
-            font-family: 'Lexend Deca', monospace;
+            font-family: monospace;
+            white-space: pre-wrap;
+            line-height: 1.5;
+            display: block;
         }
         
         .copy-btn {
@@ -271,6 +274,7 @@
             font-size: 12px;
             font-family: 'Lexend Deca', sans-serif;
             opacity: 0.7;
+            z-index: 10;
         }
         
         .copy-btn:hover {
@@ -329,6 +333,10 @@
             .demo-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .code-block {
+                padding: 25px 50px 25px 20px; /* Adjust padding on mobile */
+            }
         }
     </style>
 </head>
@@ -362,13 +370,11 @@
                 <p>Create a new widget instance with your <span class="highlight">workflowId</span> from the Deforge platform:</p>
                 <div class="code-block">
                     <button class="copy-btn" title="Copy to clipboard">Copy</button>
-                    <code>
-                        const widget = new ChatbotWidget({
-                        workflowId: "your-workflow-id-here", // Get this from Deforge dashboard
-                        theme: "deforge-light", // or "deforge-dark"
-                        position: "bottom-right" // bottom-left, top-right, top-left
-                    });
-                    </code>
+                    <code>const widget = new ChatbotWidget({
+    workflowId: "your-workflow-id-here", // Get this from Deforge dashboard
+    theme: "deforge-light", // or "deforge-dark"
+    position: "bottom-right" // bottom-left, top-right, top-left
+});</code>
                 </div>
             </div>
             
@@ -377,13 +383,11 @@
                 <p>In your Deforge dashboard, configure:</p>
                 <div class="code-block">
                     <button class="copy-btn" title="Copy to clipboard">Copy</button>
-                    <code>
-                        • Company Name & Description
-                        • Company Logo (SVG format)
-                        • Welcome Message
-                        • AI Agent Logic & Responses
-                        • API Integrations
-                    </code>
+                    <code>• Company Name & Description
+• Company Logo (SVG format)
+• Welcome Message
+• AI Agent Logic & Responses
+• API Integrations</code>
                 </div>
             </div>
             
@@ -396,47 +400,6 @@
                     <li>Process messages through your workflow</li>
                     <li>Maintain conversation history</li>
                 </ul>
-            </div>
-        </div>
-        
-        <div class="control-panel">
-            <h2>🎮 Widget Controls</h2>
-            <div class="controls">
-                <button class="btn" onclick="showWidget()">Show Chat</button>
-                <button class="btn" onclick="hideWidget()">Hide Chat</button>
-                <button class="btn" onclick="sendCustomMessage()">Send Bot Message</button>
-                <button class="btn" onclick="clearMessages()">Clear Messages</button>
-                <button class="btn" onclick="createNewWidget()">New Session</button>
-                <button class="btn" onclick="destroyWidget()">Destroy Widget</button>
-            </div>
-            
-            <div class="controls">
-                <div class="select-group">
-                    <label>Theme:</label>
-                    <select id="themeSelect" onchange="changeTheme()">
-                        <option value="deforge-light">Deforge Light</option>
-                        <option value="deforge-dark">Deforge Dark</option>
-                    </select>
-                </div>
-                <div class="select-group">
-                    <label>Position:</label>
-                    <select id="positionSelect" onchange="changePosition()">
-                        <option value="bottom-right">Bottom Right</option>
-                        <option value="bottom-left">Bottom Left</option>
-                        <option value="top-right">Top Right</option>
-                        <option value="top-left">Top Left</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="info-panel">
-                <strong>Current Chat ID:</strong> <span id="sessionInfo">Loading...</span><br>
-                <strong>Workflow ID:</strong> <span id="workflowInfo">demo-workflow-123</span><br>
-                <strong>Widget Status:</strong> <span id="statusInfo">Initializing...</span><br>
-                <strong>Message Count:</strong> <span id="messageCount">0</span>
-                <div class="analytics-log" id="analyticsLog">
-                    <strong>Analytics Events:</strong><br>
-                </div>
             </div>
         </div>
         
@@ -543,5 +506,10 @@
     </script>
 
     <script src="chatbot.js"></script>
+    <script>
+      const widget = new ChatbotWidget({
+        workflowId: "dc2b5cbb-9f90-4c85-898a-f84463ce0f7e",
+      });
+    </script>
 </body>
 </html>

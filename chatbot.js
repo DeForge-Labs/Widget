@@ -24,9 +24,6 @@
     maxMessages: 100,
     enableAnalytics: false,
     analyticsCallback: null,
-    // Server endpoints
-    configEndpoint: "https://api.deforge.ai/workflow/config",
-    chatEndpoint: "https://api.deforge.ai/workflow/chat",
   };
 
   // Theme configurations
@@ -81,6 +78,7 @@
       this.companyDescription = this.config.defaultCompanyDescription;
       this.companyLogo = this.config.defaultCompanyLogo;
       this.introMessage = "Hello! How can I help you today?";
+      this.status = null; // Add status field
 
       // Bind methods
       this.toggleChat = this.toggleChat.bind(this);
@@ -157,55 +155,36 @@
       try {
         this.setLoading(true);
 
-        // TODO: Replace with actual API call to your Deforge server
-        // const response = await fetch(`${this.config.configEndpoint}/${this.workflowId}`);
+        const response = await fetch(
+          `https://api.deforge.io/api/widget/init/${this.workflowId}`
+        );
+        const data = await response.json();
 
-        // DEMO: Simulate API call with dummy data - Always return success
-        console.log("Simulating API call...");
-        const response = await new Promise((resolve) => {
-          setTimeout(() => {
-            console.log("Dummy API response being created");
-            resolve({
-              ok: true,
-              json: () =>
-                Promise.resolve({
-                  companyName: "Demo AI Agent",
-                  companyDescription: "Your intelligent assistant",
-                  companyLogo: `<svg width="100%" height="100%" viewBox="0 0 1906 1906" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
-      <path d="M106.127,105.939c-171.021,170.916 -128.975,497.201 80.308,846.483c-205.602,342.77 -253.536,673.672 -80.308,846.914c171.022,171.127 497.39,128.976 846.484,-80.308c342.769,205.603 673.672,253.536 846.914,80.308c171.021,-170.917 129.081,-497.202 -80.308,-846.483c205.602,-342.77 253.536,-673.673 80.308,-846.914c-112.263,-112.263 -292.53,-133.284 -505.167,-72.634c-35.738,10.091 -56.448,47.406 -46.252,83.145c10.197,35.633 47.406,56.342 83.144,46.143c170.39,-48.563 301.464,-33.321 373.151,38.473c174.28,174.28 -0.316,666.218 -418.573,1084.58c-32.06,32.059 -64.857,62.962 -98.176,92.605c-27.749,24.702 -30.168,67.168 -5.466,94.917c24.702,27.749 67.168,30.273 94.917,5.571c35.319,-31.325 69.902,-64.014 103.854,-97.966c97.441,-97.441 183.214,-199.19 255.637,-301.571c152.204,278.349 175.33,517.464 67.798,625.02c-174.28,174.28 -666.218,-0.315 -1084.58,-418.573c-32.06,-32.059 -62.962,-64.856 -92.606,-98.175c-24.701,-27.749 -67.273,-30.273 -95.021,-5.571c-27.749,24.701 -30.168,67.273 -5.466,95.021c31.325,35.214 64.014,69.903 97.966,103.854c97.441,97.441 199.19,183.214 301.571,255.637c-278.026,151.995 -517.383,175.435 -625.02,67.798c-174.281,-174.28 0.315,-666.218 418.573,-1084.58c34.371,-34.371 69.479,-67.273 105.112,-98.808l56.868,-47.301c66.221,-55.185 161.455,-58.339 231.145,-7.673l61.597,44.674c18.711,13.56 44.885,9.356 58.445,-9.355c9.985,-13.875 10.616,-32.374 1.471,-46.881l-42.465,-67.063c-44.148,-69.797 -37.735,-160.194 15.767,-223.054l49.088,-57.496c15.767,-18.501 13.56,-46.357 -4.941,-62.123c-13.454,-11.457 -32.374,-13.77 -48.143,-5.992l-110.476,54.658c-61.07,30.273 -133.706,25.122 -189.941,-13.454l-81.148,-55.606c-19.446,-13.349 -45.934,-8.409 -59.178,11.038c-9.671,14.085 -9.986,32.584 -0.841,46.986l39.311,61.703c47.092,73.79 37.106,170.284 -24.071,232.826l-47.196,48.353c-35.843,31.745 -71.056,64.962 -105.535,99.438c-97.441,97.441 -183.214,199.19 -255.638,301.572c-152.099,-278.242 -175.329,-517.465 -67.797,-625.021c56.552,-56.552 149.577,-78.311 272.025,-60.441c36.685,5.256 70.847,-20.181 76.207,-56.972c5.361,-36.79 -20.182,-70.846 -56.972,-76.207c-160.931,-23.335 -296.109,8.094 -386.39,98.493l0.01,0.012Zm1154.16,394.704c-25.963,26.699 -25.333,69.27 1.366,95.13c8.094,7.883 16.188,15.872 24.177,23.861c50.769,50.769 98.598,103.326 143.06,156.934c23.756,28.591 66.116,32.48 94.707,8.83c28.591,-23.756 32.584,-66.221 8.829,-94.812c-47.091,-56.763 -97.756,-112.368 -151.469,-166.081c-8.514,-8.515 -17.028,-16.924 -25.543,-25.228c-26.699,-25.858 -69.27,-25.227 -95.129,1.367l0.002,-0.001Z" style="fill:currentColor;fill-rule:nonzero;"/>
-    </svg>`,
-                  introMessage:
-                    "🎉 Welcome! I'm your AI assistant. This is a demo workflow. Ask me anything!",
-                }),
-            });
-          }, 1000); // Simulate network delay
-        });
+        if (!data.success) {
+          this.showErrorMessage("Workflow validation failed");
+          this.isWorkflowValid = false;
+          return;
+        }
 
-        console.log("Dummy response received, processing...");
-
-        // TODO: Remove the above dummy code and uncomment the lines below for production
-        // if (!response.ok) {
-        //   throw new Error('Workflow not found');
-        // }
-
-        const workflowConfig = await response.json();
-        console.log("Workflow config:", workflowConfig);
-
-        // Update company info from server response
-        this.companyName =
-          workflowConfig.companyName || this.config.defaultCompanyName;
+        this.companyName = data?.companyName || this.config.defaultCompanyName;
         this.companyDescription =
-          workflowConfig.companyDescription ||
-          this.config.defaultCompanyDescription;
-        this.companyLogo =
-          workflowConfig.companyLogo || this.config.defaultCompanyLogo;
+          data?.companyDescription || this.config.defaultCompanyDescription;
+        this.companyLogo = data?.companyLogo || this.config.defaultCompanyLogo;
         this.introMessage =
-          workflowConfig.introMessage || "Hello! How can I help you today?";
+          data?.introMessage || this.config.defaultIntroMessage;
+        this.status = data?.status || this.config.defaultStatus;
 
-        this.workflowConfig = workflowConfig;
-        this.isWorkflowValid = true; // Mark workflow as valid
+        this.isWorkflowValid = data?.valid || false;
 
-        console.log("Workflow marked as valid, updating UI...");
+        this.workflowConfig = {
+          companyName: data?.companyName || this.config.defaultCompanyName,
+          companyDescription:
+            data?.companyDescription || this.config.defaultCompanyDescription,
+          companyLogo: data?.companyLogo || this.config.defaultCompanyLogo,
+          introMessage: data?.introMessage || this.config.defaultIntroMessage,
+          status: data?.status || this.config.defaultStatus,
+          isWorkflowValid: data?.valid || false,
+        };
 
         // Update the header with fetched info
         this.updateHeader();
@@ -310,6 +289,12 @@
       console.log("Is workflow valid?", this.isWorkflowValid);
 
       if (this.messages.length === 0 && this.isWorkflowValid) {
+        // Add test mode message first if status is TEST
+        if (this.status === "TEST") {
+          console.log("Adding test mode message");
+          this.addMessage("⚠️ This workflow is in Test Mode", "bot", false);
+        }
+
         console.log("Adding intro message:", this.introMessage);
         this.addMessage(this.introMessage, "bot", false);
       }
@@ -907,43 +892,31 @@
         //   })
         // });
 
-        // DEMO: Simulate API call with dummy responses
-        const response = await new Promise((resolve) => {
-          setTimeout(() => {
-            const dummyResponses = [
-              "Thanks for your message! I'm a demo AI agent built with Deforge. 🤖",
-              "That's an interesting question! In a real implementation, I'd process this through your custom workflow.",
-              "I'm currently running in demo mode. Your actual AI agent would provide more specific responses based on your workflow configuration.",
-              "This is a demonstration of the Deforge chat widget. Your production agent would connect to your custom logic!",
-              "Great question! When connected to your workflow, I'd provide intelligent responses based on your specific use case.",
-              "I'm here to show you how the Deforge widget works! Your real AI agent would be much more knowledgeable about your domain.",
-              "This demo showcases the chat interface. Your production workflow would handle this query with custom AI logic.",
-              "Excellent! In production, this message would be processed through your Deforge workflow nodes. 🚀",
-            ];
-
-            const randomResponse =
-              dummyResponses[Math.floor(Math.random() * dummyResponses.length)];
-
-            resolve({
-              ok: true,
-              json: () =>
-                Promise.resolve({
-                  response: randomResponse,
-                }),
-            });
-          }, 1000 + Math.random() * 2000); // Simulate 1-3 second response time
-        });
-
-        // TODO: Remove the above dummy code and uncomment the lines below for production
-        // if (!response.ok) {
-        //   throw new Error('Failed to get response');
-        // }
+        const response = await fetch(
+          `https://api.deforge.io/api/widget/send/${this.workflowId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              Message: message,
+              queryId: this.sessionId,
+            }),
+          }
+        );
 
         const data = await response.json();
 
+        if (!data.success) {
+          throw new Error(data.message);
+        }
+
+        const botReply = data?.value?.Message;
+
         this.hideTypingIndicator();
         this.addMessage(
-          data.response || "Sorry, I couldn't process your request.",
+          botReply || "Sorry, I couldn't process your request.",
           "bot"
         );
 
@@ -952,7 +925,7 @@
       } catch (error) {
         this.hideTypingIndicator();
         this.addMessage(
-          "Sorry, I'm having trouble connecting. Please try again.",
+          "Sorry, I'm having trouble processing your request. Please try again.",
           "bot"
         );
 
@@ -1121,6 +1094,10 @@
     getWorkflowConfig() {
       return this.workflowConfig;
     }
+
+    getStatus() {
+      return this.status;
+    }
   }
 
   global.ChatbotWidget = ChatbotWidget;
@@ -1162,6 +1139,7 @@ function updateUI() {
   const statusInfo = document.getElementById("statusInfo");
   const messageCount = document.getElementById("messageCount");
   const workflowInfo = document.getElementById("workflowInfo");
+  const workflowStatus = document.getElementById("workflowStatus");
 
   if (currentWidget) {
     if (sessionInfo) sessionInfo.textContent = currentWidget.getSessionId();
@@ -1170,18 +1148,21 @@ function updateUI() {
       messageCount.textContent = currentWidget.getMessages().length;
     if (workflowInfo)
       workflowInfo.textContent = currentWidget.getWorkflowId() || "None";
+    if (workflowStatus)
+      workflowStatus.textContent = currentWidget.getStatus() || "None";
   } else {
     if (sessionInfo) sessionInfo.textContent = "None";
     if (statusInfo) statusInfo.textContent = "Destroyed";
     if (messageCount) messageCount.textContent = "0";
     if (workflowInfo) workflowInfo.textContent = "None";
+    if (workflowStatus) workflowStatus.textContent = "None";
   }
 }
 
-// Initialize the demo widget
+// Initialize the widget
 function initializeWidget() {
   currentWidget = new ChatbotWidget({
-    workflowId: "demo-workflow-123", // Replace with actual workflow ID
+    workflowId: this.workflowId,
     theme: "deforge-light",
     position: "bottom-right",
     enableAnalytics: true,
@@ -1264,8 +1245,3 @@ function changePosition() {
     updateUI();
   }
 }
-
-// Initialize demo on page load
-document.addEventListener("DOMContentLoaded", () => {
-  initializeWidget();
-});

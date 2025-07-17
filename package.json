@@ -1,6 +1,6 @@
 {
   "name": "deforge-widget",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Simple support bot widget powered by Deforge",
   "main": "chatbot.js",
   "scripts": {
