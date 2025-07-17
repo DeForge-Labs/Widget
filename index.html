@@ -249,11 +249,39 @@
             margin: 20px 0;
             border: 1px solid rgba(254, 252, 234, 0.1);
             overflow-x: auto;
+            position: relative;
         }
         
         .code-block code {
             color: #fefcea;
             font-family: 'Lexend Deca', monospace;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(254, 252, 234, 0.1);
+            border: 1px solid rgba(254, 252, 234, 0.2);
+            color: #fefcea;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 12px;
+            font-family: 'Lexend Deca', sans-serif;
+            opacity: 0.7;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(254, 252, 234, 0.25);
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+        
+        .copy-btn:active {
+            transform: translateY(0);
+            background: rgba(254, 252, 234, 0.2);
         }
         
         .step {
@@ -324,6 +352,7 @@
                 <h3>Step 1: Include the Script</h3>
                 <p>Add the Deforge widget script to your HTML page:</p>
                 <div class="code-block">
+                    <button class="copy-btn" title="Copy to clipboard">Copy</button>
                     <code>&lt;script src="https://cdn.deforge.ai/widget/deforge-widget.js">&lt;/script></code>
                 </div>
             </div>
@@ -332,11 +361,14 @@
                 <h3>Step 2: Initialize with Your Workflow ID</h3>
                 <p>Create a new widget instance with your <span class="highlight">workflowId</span> from the Deforge platform:</p>
                 <div class="code-block">
-                    <code>const widget = new ChatbotWidget({
-    workflowId: "your-workflow-id-here", // Get this from Deforge dashboard
-    theme: "deforge-light", // or "deforge-dark"
-    position: "bottom-right" // bottom-left, top-right, top-left
-});</code>
+                    <button class="copy-btn" title="Copy to clipboard">Copy</button>
+                    <code>
+                        const widget = new ChatbotWidget({
+                        workflowId: "your-workflow-id-here", // Get this from Deforge dashboard
+                        theme: "deforge-light", // or "deforge-dark"
+                        position: "bottom-right" // bottom-left, top-right, top-left
+                    });
+                    </code>
                 </div>
             </div>
             
@@ -344,11 +376,14 @@
                 <h3>Step 3: Configure Your Workflow</h3>
                 <p>In your Deforge dashboard, configure:</p>
                 <div class="code-block">
-                    <code>• Company Name & Description
-• Company Logo (SVG format)
-• Welcome Message
-• AI Agent Logic & Responses
-• API Integrations</code>
+                    <button class="copy-btn" title="Copy to clipboard">Copy</button>
+                    <code>
+                        • Company Name & Description
+                        • Company Logo (SVG format)
+                        • Welcome Message
+                        • AI Agent Logic & Responses
+                        • API Integrations
+                    </code>
                 </div>
             </div>
             
@@ -472,7 +507,41 @@
         </div>
     </div>
 
-    <!-- Include the Deforge AI Agent Widget -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const copyButtons = document.querySelectorAll('.copy-btn');
+
+            copyButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const codeBlock = button.parentElement;
+                    const codeElement = codeBlock.querySelector('code');
+                    const codeToCopy = codeElement.innerText;
+
+                    navigator.clipboard.writeText(codeToCopy).then(() => {
+                        button.textContent = 'Copied!';
+                        // Optional: style change for feedback, matches feature list checkmark
+                        button.style.backgroundColor = '#4ade80';
+                        button.style.color = '#1d1f26';
+                        
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                            // Revert styles
+                            button.style.backgroundColor = '';
+                            button.style.color = '';
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy code: ', err);
+                        button.textContent = 'Error';
+                        
+                        setTimeout(() => {
+                            button.textContent = 'Copy';
+                        }, 2000);
+                    });
+                });
+            });
+        });
+    </script>
+
     <script src="chatbot.js"></script>
 </body>
 </html>

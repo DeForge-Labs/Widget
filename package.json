@@ -1,0 +1,23 @@
+{
+  "name": "deforge-widget",
+  "version": "1.0.0",
+  "description": "Simple support bot widget powered by Deforge",
+  "main": "chatbot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DeForge-Labs/Widget.git"
+  },
+  "keywords": [
+    "chatbot",
+    "supportbot"
+  ],
+  "author": "Deforge-Labs",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/DeForge-Labs/Widget/issues"
+  },
+  "homepage": "https://github.com/DeForge-Labs/Widget#readme"
+}
