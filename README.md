@@ -6,4 +6,9 @@
 
 A simple widget to add a custom support bot directly into your website with minimal configuration. Simple add a script tag with our package as the source.
 
-Link to CDN and detailed instructions will be added later.
+Add the following line to your site:
+```html
+script src="https://cdn.jsdeliver.net/npm/deforge-widget/chatbot.min.js">/script>
+```
+
+Detailed instructions will be added later.
